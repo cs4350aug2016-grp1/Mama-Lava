@@ -22,15 +22,8 @@ public:
 	virtual void Tick( float DeltaSeconds ) override;
 
 	FVector GetDimension();
-	FTransform GetRightAP();
 
 protected:
 	UPROPERTY(BlueprintReadWrite)
 	FVector Dimension;
-
-	UPROPERTY(BlueprintReadWrite)
-	FTransform RightAP;
-
-	UPROPERTY(BlueprintReadWrite)
-		FTransform ForwardAP;
 };

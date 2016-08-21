@@ -27,7 +27,3 @@ void ACPP_Brick::Tick( float DeltaTime )
 FVector ACPP_Brick::GetDimension() {
 	return Dimension;
 }
-
-FTransform ACPP_Brick::GetRightAP() {
-	return RightAP;
-}

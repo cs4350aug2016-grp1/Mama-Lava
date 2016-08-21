@@ -37,6 +37,4 @@ public:
 
 	UPROPERTY(EditAnyWhere,BlueprintReadWrite)
 		int MinimumHeightAhead;
-
-	
 };

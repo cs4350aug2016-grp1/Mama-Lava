@@ -37,22 +37,27 @@ void ACPP_TowerGenerator::GenerateLayer() {
 	int wallWidth = wall->GetDimension().Z;
 	int numWalls = PI / atan(wallWidth / 2.0 / Radius);
 	double angle = 180.0 - (numWalls - 2)*180.0 / numWalls;
-	FVector* translation = new FVector(0, -Radius, TowerHeight);
-	FRotator* rotation = new FRotator(0, angle, 0);
+	FVector wallPosition(0, -Radius, TowerHeight);
+	FVector centerToWallVector = FVector(0, -Radius, TowerHeight) - GetActorLocation();
+	FRotator rotator(0, 0, 0);
+	FRotationMatrix rotationMatrix(rotator);
+	FVector translation = rotationMatrix.TransformPosition(centerToWallVector);
+	
+	int numConsecutivePlatforms = 0;
 	for (int i = 0; i < numWalls; i++) {
 		ACPP_Brick* curr_wall = dynamic_cast<ACPP_Brick*>(
-			GetWorld()->SpawnActor(wall->GetClass(),
-				const_cast<const FVector*>(translation),
-				const_cast<const FRotator*>(rotation)));
-		if (static_cast<double>(rand()) / RAND_MAX > 0.8) {
+			GetWorld()->SpawnActor(wall->GetClass(),&translation,&rotator));
+		if (static_cast<double>(rand()) / RAND_MAX > 0.9 || numConsecutivePlatforms>0) {
 			ACPP_Platform* curr_platform = dynamic_cast<ACPP_Platform*>(
-				GetWorld()->SpawnActor(platform->GetClass(),
-					const_cast<const FVector*>(translation),
-					const_cast<const FRotator*>(rotation)));
+				GetWorld()->SpawnActor(platform->GetClass(),&translation,&rotator));
+			numConsecutivePlatforms++;
+			if (numConsecutivePlatforms >= 3) {
+				numConsecutivePlatforms = 0;
+			}
 		}
-		translation = new FVector(curr_wall->GetRightAP().GetTranslation());
-		rotation->Add(0, angle, 0);
+		rotator.Add(0, angle, 0);
+		rotationMatrix = FRotationMatrix(rotator);
+		translation = rotationMatrix.TransformPosition(centerToWallVector);
 	}
 	TowerHeight += wall->GetDimension().Z;
 }
-
