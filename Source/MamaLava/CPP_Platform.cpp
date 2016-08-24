@@ -31,7 +31,7 @@ ACPP_Platform* ACPP_Platform::Generate(ACPP_TowerGenerator* Tower, int StartAngl
 	ACPP_Platform* Platform = dynamic_cast<ACPP_Platform*> (Tower->GetWorld()->SpawnActor(ACPP_Platform::StaticClass()));
 
 	ACPP_Platform_Unit* PlatformType = Tower->PlatformTypes[0];
-	FRotator Rotator(0, StartAngle, 0);
+	FRotator Rotator(0, StartAngle + Tower->Angle/2.0, 0);
 	FRotationMatrix RotationMatrix = FRotationMatrix(Rotator);
 	FVector Translation = RotationMatrix.TransformPosition(Tower->CenterToWallVector);
 	Platform->StartingPoint = Translation;
@@ -45,7 +45,7 @@ ACPP_Platform* ACPP_Platform::Generate(ACPP_TowerGenerator* Tower, int StartAngl
 	}
 
 	Platform->EndingPoint = Translation;
-	Platform->EndingAngle = Rotator.Euler().Z - Tower->Angle;
+	Platform->EndingAngle = Rotator.Euler().Z - Tower->Angle/2.0;
 
 	return Platform;
 }
