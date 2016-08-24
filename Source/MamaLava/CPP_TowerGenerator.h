@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CPP_Brick.h"
-#include "CPP_Platform.h"
+#include "CPP_Platform_Unit.h"
 #include "GameFramework/Actor.h"
 #include "CPP_TowerGenerator.generated.h"
+
+class ACPP_Platform;
 
 UCLASS()
 class MAMALAVA_API ACPP_TowerGenerator : public AActor
@@ -31,10 +33,15 @@ public:
 	UPROPERTY(EditAnyWhere)
 		TArray<ACPP_Brick*> WallTypes;
 	UPROPERTY(EditAnyWhere)
-		TArray<ACPP_Platform*> PlatformTypes;
+		TArray<ACPP_Platform_Unit*> PlatformTypes;
 	UPROPERTY(BlueprintReadWrite)
 		int TowerHeight = 0;
 
 	UPROPERTY(EditAnyWhere,BlueprintReadWrite)
 		int MinimumHeightAhead;
+	UPROPERTY(EditAnyWhere)
+		int MaximumDistanceApart;
+
+private:
+	TArray<ACPP_Platform*> PreviousLayer;
 };

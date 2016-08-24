@@ -4,6 +4,7 @@
 #include <math.h>
 #include <stdlib.h> 
 #include <time.h>  
+#include "CPP_Platform.h"
 #include "CPP_TowerGenerator.h"
 
 
@@ -30,10 +31,9 @@ void ACPP_TowerGenerator::Tick( float DeltaTime )
 }
 
 void ACPP_TowerGenerator::GenerateLayer() {
-	//srand(time(NULL));
+	TArray<ACPP_Platform*> NewLayer;
 
 	ACPP_Brick* wall = WallTypes[0];
-	ACPP_Platform* platform = PlatformTypes[0];
 	int wallWidth = wall->GetDimension().Z;
 	int numWalls = PI / atan(wallWidth / 2.0 / Radius);
 	double angle = 180.0 - (numWalls - 2)*180.0 / numWalls;
@@ -48,8 +48,7 @@ void ACPP_TowerGenerator::GenerateLayer() {
 		ACPP_Brick* curr_wall = dynamic_cast<ACPP_Brick*>(
 			GetWorld()->SpawnActor(wall->GetClass(),&translation,&rotator));
 		if (static_cast<double>(rand()) / RAND_MAX > 0.9 || numConsecutivePlatforms>0) {
-			ACPP_Platform* curr_platform = dynamic_cast<ACPP_Platform*>(
-				GetWorld()->SpawnActor(platform->GetClass(),&translation,&rotator));
+			NewLayer.Add(ACPP_Platform::Generate(this, rotator.Euler().Z, centerToWallVector));
 			numConsecutivePlatforms++;
 			if (numConsecutivePlatforms >= 3) {
 				numConsecutivePlatforms = 0;
@@ -60,4 +59,5 @@ void ACPP_TowerGenerator::GenerateLayer() {
 		translation = rotationMatrix.TransformPosition(centerToWallVector);
 	}
 	TowerHeight += wall->GetDimension().Z;
+	PreviousLayer = NewLayer;
 }
