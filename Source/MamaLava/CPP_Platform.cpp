@@ -27,15 +27,25 @@ void ACPP_Platform::Tick(float DeltaTime)
 }
 
 // Generate a number of continuous platform
-ACPP_Platform* ACPP_Platform::Generate(ACPP_TowerGenerator* Tower, int Angle, FVector CenterToWallVector) {
+ACPP_Platform* ACPP_Platform::Generate(ACPP_TowerGenerator* Tower, int StartAngle, int EndAngle) {
 	ACPP_Platform* Platform = dynamic_cast<ACPP_Platform*> (Tower->GetWorld()->SpawnActor(ACPP_Platform::StaticClass()));
-	
+
 	ACPP_Platform_Unit* PlatformType = Tower->PlatformTypes[0];
-	FRotator Rotator(0, Angle, 0);
+	FRotator Rotator(0, StartAngle, 0);
 	FRotationMatrix RotationMatrix = FRotationMatrix(Rotator);
-	FVector Translation = RotationMatrix.TransformPosition(CenterToWallVector);
+	FVector Translation = RotationMatrix.TransformPosition(Tower->CenterToWallVector);
 	Platform->StartingPoint = Translation;
+	Platform->StartingAngle = Tower->Angle;
+
+	for (int i = 0; i < 3 && Rotator.Euler().Z < EndAngle; i++) {
+		Tower->GetWorld()->SpawnActor(PlatformType->GetClass(), &Translation, &Rotator);
+		Rotator.Add(0, Tower->Angle, 0);
+		RotationMatrix = FRotationMatrix(Rotator);
+		Translation = RotationMatrix.TransformPosition(Tower->CenterToWallVector);
+	}
+
 	Platform->EndingPoint = Translation;
-	Tower->GetWorld()->SpawnActor(PlatformType->GetClass(), &Translation, &Rotator);
+	Platform->EndingAngle = Rotator.Euler().Z - Tower->Angle;
+
 	return Platform;
 }

@@ -13,19 +13,19 @@ UCLASS()
 class MAMALAVA_API ACPP_TowerGenerator : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	ACPP_TowerGenerator();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
-	// Called every frame
-	virtual void Tick( float DeltaSeconds ) override;
 
-	UFUNCTION(BlueprintCallable, Category="PGC")
-	void GenerateLayer();
+	// Called every frame
+	virtual void Tick(float DeltaSeconds) override;
+
+	UFUNCTION(BlueprintCallable, Category = "PGC")
+		void GenerateLayer();
 
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
 		int Radius;
@@ -37,11 +37,16 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		int TowerHeight = 0;
 
-	UPROPERTY(EditAnyWhere,BlueprintReadWrite)
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
 		int MinimumHeightAhead;
 	UPROPERTY(EditAnyWhere)
 		int MaximumDistanceApart;
 
+	int Angle, NumWalls;
+	FVector CenterToWallVector;
+
 private:
 	TArray<ACPP_Platform*> PreviousLayer;
+	void GenerateWalls();
+	void GeneratePlatforms();
 };
