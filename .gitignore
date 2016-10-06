@@ -61,3 +61,7 @@ Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 MamaLava.VC.db
+Source/MamaLava/Private/CPP_ThreadTest.cpp
+Source/MamaLava/Private/CPP_ThreadTestObject.cpp
+Source/MamaLava/Public/CPP_ThreadTest.h
+Source/MamaLava/Public/CPP_ThreadTestObject.h
