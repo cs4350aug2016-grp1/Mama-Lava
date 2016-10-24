@@ -12,8 +12,11 @@ UCLASS()
 class MAMALAVA_API UBPFI_IO : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
-	
-	
-	
+
+	UFUNCTION(BlueprintCallable, Category = "save")
+		static bool FileSaveString(FString SaveTextB, FString FileNameB);
+
+	UFUNCTION(BlueprintPure, Category = "save")
+		static bool FileLoadString(FString FileNameA, FString& SaveTextA);
 	
 };
