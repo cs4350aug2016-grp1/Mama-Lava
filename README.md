@@ -1,7 +1,11 @@
-# Mama-Lava
-Endless Run / Multiplayer / VR / Third-Person Game
+# Mama! Lava!
 
-You are stuck in a tower with a friend. A pool of bloodthirsty lava will start filling up the tower. Your job is to reach heaven to escape. The longer you survive, the harder the lava will try to kill you and your friend. Be warned that your friend may try to sabotage and kill you in the process. Perhaps he will since there can only be one winner. ;)
+Genre: Endless Run / (VR*) / Third-Person
+
+Game Concept:
+You are stuck in a tower. A pool of bloodthirsty lava will start filling up the tower. The higher you get, the harder it becomes to survive. How long will you be able to escape the lava?
+
+*Our current version does not support VR correctly. We are working to resolve this issue. You can play the game without VR, and without a controller.
 
 
 
